@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRCA English Quiz Test (Grade 1-2)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Kids -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                        heading: ['Fredoka', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#0284c7',
+                            purple: '#9333ea',
+                            pink: '#ec4899',
+                            yellow: '#f59e0b',
+                            green: '#10b981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 50%, #fef3c7 100%);
+            min-height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 9999px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="text-slate-800 antialiased p-3 sm:p-6 flex flex-col items-center min-h-screen">
+
+    <!-- Header / Branding Bar -->
+    <header
+        class="w-full max-w-4xl bg-white shadow-lg rounded-2xl p-4 sm:p-5 mb-6 border-b-4 border-sky-500 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+            <div
+                class="bg-gradient-to-tr from-sky-500 to-indigo-600 text-white w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-md font-bold font-heading">
+                HR
+            </div>
+            <div>
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-800 leading-tight">HRCA English Quiz</h1>
+                <p class="text-xs sm:text-sm font-semibold text-brand-purple">Grade 1-2 Practice Test • 112 Questions
+                </p>
+            </div>
+        </div>
+        <div id="student-badge"
+            class="hidden bg-sky-50 border border-sky-200 text-sky-700 px-4 py-2 rounded-xl font-bold text-sm flex items-center gap-2">
+            <i class="fa-solid fa-child"></i>
+            <span id="display-student-name">Student</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-4xl flex-1 flex flex-col justify-center">
+
+        <!-- STEP 1: Welcome & Student Registration -->
+        <div id="start-card"
+            class="bg-white rounded-3xl shadow-xl p-6 sm:p-10 border border-slate-100 text-center max-w-lg mx-auto w-full transition-all">
+            <div
+                class="w-20 h-20 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto text-4xl mb-4 shadow-inner">
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">Welcome Little Scholar!</h2>
+            <p class="text-slate-600 text-sm sm:text-base mb-6">Enter your name to start the randomized 112 MCQs English
+                Quiz Test (Grade 1-2).</p>
+
+            <form id="start-form" onsubmit="startQuiz(event)" class="space-y-4">
+                <div class="text-left">
+                    <label for="student-name"
+                        class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 ml-1">Your Full
+                        Name</label>
+                    <input type="text" id="student-name" required placeholder="e.g. Sara Ali"
+                        class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none text-slate-800 text-base font-semibold transition">
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-heading font-bold text-lg py-3.5 px-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition transform flex items-center justify-center gap-2">
+                    <span>Start Test Now</span>
+                    <i class="fa-solid fa-rocket"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Active Quiz Interface -->
+        <div id="quiz-card"
+            class="hidden bg-white rounded-3xl shadow-xl p-4 sm:p-8 border border-slate-100 flex flex-col">
+
+            <!-- Top Controls & Progress Bar -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between text-sm sm:text-base font-bold text-slate-600 mb-2">
+                    <span id="question-progress-text">Question 1 of 112</span>
+                    <span id="answered-count-text"
+                        class="text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">0 Answered</span>
+                </div>
+                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                    <div id="progress-bar-inner"
+                        class="bg-gradient-to-r from-sky-500 to-brand-purple h-full rounded-full transition-all duration-300"
+                        style="width: 0.89%;"></div>
+                </div>
+            </div>
+
+            <!-- Question & Answers Box -->
+            <div
+                class="flex-1 bg-slate-50/70 rounded-2xl p-4 sm:p-6 border border-slate-200/80 mb-6 flex flex-col justify-between">
+                <div>
+                    <span
+                        class="inline-block bg-sky-100 text-sky-700 text-xs font-extrabold px-3 py-1 rounded-lg uppercase tracking-wider mb-3"
+                        id="q-tag">Question</span>
+                    <h3 id="question-text" class="text-lg sm:text-2xl font-bold text-slate-800 leading-snug mb-6">
+                        <!-- Dynamic Question -->
+                    </h3>
+                </div>
+
+                <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <!-- Dynamic Options -->
+                </div>
+            </div>
+
+            <!-- Quiz Navigation -->
+            <div class="flex items-center justify-between gap-3 pt-2">
+                <button id="btn-prev" onclick="prevQuestion()"
+                    class="px-5 py-2.5 rounded-xl border-2 border-slate-200 text-slate-600 font-bold hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-arrow-left"></i> Previous
+                </button>
+
+                <button onclick="toggleGridModal()"
+                    class="px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold hover:bg-slate-100 transition text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-th"></i> <span class="hidden sm:inline">Grid Overview</span>
+                </button>
+
+                <button id="btn-next" onclick="nextQuestion()"
+                    class="px-6 py-2.5 rounded-xl bg-sky-600 text-white font-bold shadow-md hover:bg-sky-700 transition flex items-center gap-2 text-sm sm:text-base">
+                    Next <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <button id="btn-submit" onclick="confirmSubmit()"
+                    class="hidden px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-bold shadow-md hover:bg-emerald-700 transition flex items-center gap-2 text-sm sm:text-base">
+                    Submit Test <i class="fa-solid fa-check"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Quiz Score & Detailed Review -->
+        <div id="results-card" class="hidden space-y-6">
+
+            <!-- Result Summary Banner -->
+            <div
+                class="bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-slate-100 text-center relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-100 rounded-full opacity-50 blur-xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-sky-100 rounded-full opacity-50 blur-xl"></div>
+
+                <div id="badge-icon"
+                    class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-4xl mb-4 shadow-sm">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-1" id="res-greeting">Great Job!</h2>
+                <p class="text-slate-500 font-semibold mb-6">Here is your performance summary for the HRCA Grade 1-2
+                    Test.</p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-6">
+                    <div class="bg-sky-50 p-3 sm:p-4 rounded-2xl border border-sky-100">
+                        <span class="block text-xs font-bold text-sky-600 uppercase">Total Score</span>
+                        <span id="score-text" class="text-xl sm:text-3xl font-extrabold text-sky-700">0/112</span>
+                    </div>
+                    <div class="bg-emerald-50 p-3 sm:p-4 rounded-2xl border border-emerald-100">
+                        <span class="block text-xs font-bold text-emerald-600 uppercase">Percentage</span>
+                        <span id="percent-text" class="text-xl sm:text-3xl font-extrabold text-emerald-700">0%</span>
+                    </div>
+                    <div class="bg-green-50 p-3 sm:p-4 rounded-2xl border border-green-100">
+                        <span class="block text-xs font-bold text-green-600 uppercase">Correct</span>
+                        <span id="correct-count-text" class="text-xl sm:text-3xl font-extrabold text-green-700">0</span>
+                    </div>
+                    <div class="bg-rose-50 p-3 sm:p-4 rounded-2xl border border-rose-100">
+                        <span class="block text-xs font-bold text-rose-600 uppercase">Incorrect</span>
+                        <span id="wrong-count-text" class="text-xl sm:text-3xl font-extrabold text-rose-700">0</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="location.reload()"
+                        class="bg-sky-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-sky-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Retake Test (New Shuffle)
+                    </button>
+                    <button onclick="window.print()"
+                        class="bg-slate-800 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:bg-slate-900 transition flex items-center gap-2">
+                        <i class="fa-solid fa-print"></i> Print Results
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabbed Review Options -->
+            <div class="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border border-slate-100">
+                <div class="flex flex-wrap border-b border-slate-200 mb-6 gap-2">
+                    <button id="tab-wrong-btn" onclick="switchReviewTab('wrong')"
+                        class="py-2.5 px-4 font-bold text-sm sm:text-base border-b-2 border-rose-500 text-rose-600 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-xmark"></i> Incorrect Answers (<span id="tab-wrong-count">0</span>)
+                    </button>
+                    <button id="tab-all-btn" onclick="switchReviewTab('all')"
+                        class="py-2.5 px-4 font-bold text-sm sm:text-base border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> All Questions Review (112)
+                    </button>
+                </div>
+
+                <!-- Tab Content 1: Incorrect Answers Focus -->
+                <div id="tab-wrong-content" class="space-y-4">
+                    <!-- Dynamic Wrong Questions -->
+                </div>
+
+                <!-- Tab Content 2: All Questions Review -->
+                <div id="tab-all-content" class="hidden space-y-4">
+                    <!-- Dynamic All Questions -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal for Question Grid Navigation -->
+    <div id="grid-modal"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col p-6">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-th text-sky-600 mr-2"></i>Question
+                    Palette</h3>
+                <button onclick="toggleGridModal()"
+                    class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center font-bold">✕</button>
+            </div>
+
+            <div class="text-xs text-slate-500 flex gap-4 mb-3">
+                <span class="flex items-center gap-1"><span
+                        class="w-3 h-3 rounded-full bg-slate-200 border border-slate-300"></span> Unanswered</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-sky-600"></span>
+                    Answered</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                    Current</span>
+            </div>
+
+            <div id="grid-buttons"
+                class="grid grid-cols-6 sm:grid-cols-10 gap-2 overflow-y-auto custom-scrollbar p-1 flex-1">
+                <!-- Grid buttons inserted dynamically -->
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 mt-4 flex justify-end">
+                <button onclick="toggleGridModal()"
+                    class="px-5 py-2 bg-slate-800 text-white font-bold rounded-xl text-sm">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Block containing all 112 Grade 1-2 MCQs accurately extracted -->
+    <script>
+        const rawQuestions = [
+            { id: 1, q: "Which letter comes right after 'F'?", opts: ["G", "E", "H", "D"], ans: 0 },
+            { id: 2, q: "Which letter comes right before 'K'?", opts: ["L", "J", "M", "I"], ans: 1 },
+            { id: 3, q: "Which of these is a vowel?", opts: ["b", "t", "e", "m"], ans: 2 },
+            { id: 4, q: "Which of these is NOT a vowel?", opts: ["a", "i", "o", "s"], ans: 3 },
+            { id: 5, q: "How many vowels are there in English?", opts: ["Five", "Three", "Four", "Six"], ans: 0 },
+            { id: 6, q: "Which letters are missing? a, b, _, d, _", opts: ["e and f", "c and e", "f and g", "b and c"], ans: 1 },
+            { id: 7, q: "Which is the first letter of the alphabet?", opts: ["Z", "M", "A", "B"], ans: 2 },
+            { id: 8, q: "Which is the last letter of the alphabet?", opts: ["Y", "X", "A", "Z"], ans: 3 },
+            { id: 9, q: "The small letter of 'B' is", opts: ["b", "d", "p", "q"], ans: 0 },
+            { id: 10, q: "Which word has two vowels in it?", opts: ["cat", "rain", "sky", "try"], ans: 1 },
+            { id: 11, q: "Which word begins with the same sound as 'sun'?", opts: ["moon", "ball", "soap", "tree"], ans: 2 },
+            { id: 12, q: "Which word begins with the same sound as 'ball'?", opts: ["cat", "dog", "hat", "bat"], ans: 3 },
+            { id: 13, q: "Which word begins with the same sound as 'fish'?", opts: ["fan", "dish", "wish", "cash"], ans: 0 },
+            { id: 14, q: "Which word begins with the same sound as 'moon'?", opts: ["noon", "map", "soon", "spoon"], ans: 1 },
+            { id: 15, q: "Which word begins with a 'd' sound?", opts: ["truck", "luck", "duck", "buck"], ans: 2 },
+            { id: 16, q: "Which word starts with the letter 'p'?", opts: ["hen", "ten", "den", "pen"], ans: 3 },
+            { id: 17, q: "Which word starts with the letter 'r'?", opts: ["rat", "cat", "bat", "mat"], ans: 0 },
+            { id: 18, q: "Which word begins with the same sound as 'tiger'?", opts: ["giant", "table", "city", "apple"], ans: 1 },
+            { id: 19, q: "Which word begins with the same sound as 'lion'?", opts: ["ring", "nose", "lamp", "wing"], ans: 2 },
+            { id: 20, q: "Which word begins with the same sound as 'kite'?", opts: ["city", "nice", "gate", "king"], ans: 3 },
+            { id: 21, q: "Which word ends with the 't' sound?", opts: ["cat", "car", "can", "cap"], ans: 0 },
+            { id: 22, q: "Which word ends with the 'g' sound?", opts: ["dot", "dog", "don", "dock"], ans: 1 },
+            { id: 23, q: "Which word ends with the 'n' sound?", opts: ["sum", "sub", "sun", "sup"], ans: 2 },
+            { id: 24, q: "Which word has the 'sh' sound?", opts: ["sip", "tip", "lip", "ship"], ans: 3 },
+            { id: 25, q: "Which word has the 'ch' sound?", opts: ["chair", "care", "share", "wear"], ans: 0 },
+            { id: 26, q: "Which word has the short 'a' sound like in 'cat'?", opts: ["men", "man", "moon", "mine"], ans: 1 },
+            { id: 27, q: "Which word has the short 'i' sound like in 'pig'?", opts: ["seat", "site", "sit", "soot"], ans: 2 },
+            { id: 28, q: "Which word has the 'th' sound?", opts: ["tin", "sin", "win", "thin"], ans: 3 },
+            { id: 29, q: "Which word rhymes with 'star'?", opts: ["car", "sun", "cat", "pen"], ans: 0 },
+            { id: 30, q: "Which word rhymes with 'tree'?", opts: ["top", "bee", "cup", "bat"], ans: 1 },
+            { id: 31, q: "Which word rhymes with 'night'?", opts: ["nice", "note", "light", "neat"], ans: 2 },
+            { id: 32, q: "Which word rhymes with 'cake'?", opts: ["cook", "kick", "rock", "lake"], ans: 3 },
+            { id: 33, q: "Which word rhymes with 'frog'?", opts: ["log", "flag", "fig", "rug"], ans: 0 },
+            { id: 34, q: "Which word rhymes with 'rain'?", opts: ["run", "train", "ring", "rope"], ans: 1 },
+            { id: 35, q: "Which word rhymes with 'book'?", opts: ["back", "bike", "look", "bank"], ans: 2 },
+            { id: 36, q: "Which word rhymes with 'play'?", opts: ["dry", "dog", "den", "day"], ans: 3 },
+            { id: 37, q: "Which word rhymes with 'mouse'?", opts: ["house", "mice", "moss", "mass"], ans: 0 },
+            { id: 38, q: "Which two words rhyme?", opts: ["bell and ball", "bell and shell", "bell and book", "bell and bat"], ans: 1 },
+            { id: 39, q: "Which word is a naming word (noun)?", opts: ["run", "quickly", "table", "happy"], ans: 2 },
+            { id: 40, q: "Which word names an animal?", opts: ["blue", "jump", "soft", "tiger"], ans: 3 },
+            { id: 41, q: "Which word names a place?", opts: ["school", "sing", "green", "fast"], ans: 0 },
+            { id: 42, q: "Which word names a person?", opts: ["table", "doctor", "apple", "run"], ans: 1 },
+            { id: 43, q: "Which of these is a proper noun (a special name)?", opts: ["boy", "city", "Ahmed", "village"], ans: 2 },
+            { id: 44, q: "Which word should begin with a capital letter?", opts: ["table", "chair", "pen", "monday"], ans: 3 },
+            { id: 45, q: "Which of these is the name of a country (proper noun)?", opts: ["Pakistan", "city", "river", "dog"], ans: 0 },
+            { id: 46, q: "Which word names a thing we can read?", opts: ["walk", "book", "loud", "cold"], ans: 1 },
+            { id: 47, q: "Which word names a fruit?", opts: ["run", "blue", "banana", "sing"], ans: 2 },
+            { id: 48, q: "Which sentence has a proper noun?", opts: ["The dog is black.", "I like apples.", "We play games.", "My friend Sara is here."], ans: 3 },
+            { id: 49, q: "More than one 'book' is", opts: ["books", "bookes", "bookies", "book"], ans: 0 },
+            { id: 50, q: "More than one 'apple' is", opts: ["applees", "apples", "apple", "appls"], ans: 1 },
+            { id: 51, q: "More than one 'box' is", opts: ["boxs", "box", "boxes", "boxies"], ans: 2 },
+            { id: 52, q: "More than one 'bus' is", opts: ["buss", "bus", "busies", "buses"], ans: 3 },
+            { id: 53, q: "More than one 'baby' is", opts: ["babies", "babys", "baby", "babyes"], ans: 0 },
+            { id: 54, q: "More than one 'man' is", opts: ["mans", "men", "mens", "mans'"], ans: 1 },
+            { id: 55, q: "More than one 'child' is", opts: ["childs", "childrens", "children", "childes"], ans: 2 },
+            { id: 56, q: "More than one 'foot' is", opts: ["foots", "feets", "footes", "feet"], ans: 3 },
+            { id: 57, q: "More than one 'mouse' is", opts: ["mice", "mouses", "mouse", "mices"], ans: 0 },
+            { id: 58, q: "More than one 'dish' is", opts: ["dishs", "dishes", "dish", "dishies"], ans: 1 },
+            { id: 59, q: "One of these is only ONE (singular). Which?", opts: ["three cats", "many cats", "a cat", "two cats"], ans: 2 },
+            { id: 60, q: "Choose the correct sentence.", opts: ["I have two pen.", "I have two penz.", "I has two pens.", "I have two pens."], ans: 3 },
+            { id: 61, q: "Ahmed is a boy. ___ is tall.", opts: ["He", "She", "It", "They"], ans: 0 },
+            { id: 62, q: "Ayesha is a girl. ___ likes to read.", opts: ["He", "She", "It", "We"], ans: 1 },
+            { id: 63, q: "The ball is red. ___ is round.", opts: ["He", "She", "It", "They"], ans: 2 },
+            { id: 64, q: "Ali and Sana are friends. ___ play together.", opts: ["He", "She", "It", "They"], ans: 3 },
+            { id: 65, q: "___ am a student.", opts: ["I", "He", "She", "It"], ans: 0 },
+            { id: 66, q: "This book is mine. Please give it to ___.", opts: ["I", "me", "we", "they"], ans: 1 },
+            { id: 67, q: "___ is a cat near you (close).", opts: ["That", "Those", "This", "These"], ans: 2 },
+            { id: 68, q: "___ is a bird far away in the sky.", opts: ["This", "These", "Their", "That"], ans: 3 },
+            { id: 69, q: "___ are my shoes here (near, more than one).", opts: ["These", "This", "That", "Those"], ans: 0 },
+            { id: 70, q: "___ are the stars far away in the night sky.", opts: ["This", "Those", "That", "These"], ans: 1 },
+            { id: 71, q: "We are a team. ___ will win.", opts: ["He", "She", "We", "It"], ans: 2 },
+            { id: 72, q: "The dog wagged ___ tail.", opts: ["his", "her", "their", "its"], ans: 3 },
+            { id: 73, q: "Sara lost ___ pencil.", opts: ["her", "his", "its", "their"], ans: 0 },
+            { id: 74, q: "Ali rides ___ bicycle to school.", opts: ["her", "his", "its", "our"], ans: 1 },
+            { id: 75, q: "I ate ___ apple.", opts: ["a", "the", "an", "no"], ans: 2 },
+            { id: 76, q: "She has ___ book.", opts: ["an", "two the", "no", "a"], ans: 3 },
+            { id: 77, q: "There is ___ egg in the nest.", opts: ["an", "a", "the two", "some a"], ans: 0 },
+            { id: 78, q: "I saw ___ umbrella on the chair.", opts: ["a", "an", "to", "be"], ans: 1 },
+            { id: 79, q: "___ sun rises in the east.", opts: ["A", "An", "The", "No"], ans: 2 },
+            { id: 80, q: "He is ___ honest boy.", opts: ["a", "the two", "no", "an"], ans: 3 },
+            { id: 81, q: "I have ___ orange and a banana.", opts: ["an", "a", "two the", "be"], ans: 0 },
+            { id: 82, q: "Please pass me ___ pencil.", opts: ["an", "a", "two", "be"], ans: 1 },
+            { id: 83, q: "Which word is an action word?", opts: ["chair", "red", "swim", "soft"], ans: 2 },
+            { id: 84, q: "Which word is an action word?", opts: ["table", "blue", "tall", "sing"], ans: 3 },
+            { id: 85, q: "Birds ___ in the sky.", opts: ["fly", "chair", "apple", "green"], ans: 0 },
+            { id: 86, q: "I ___ a student.", opts: ["is", "am", "are", "be"], ans: 1 },
+            { id: 87, q: "He ___ my friend.", opts: ["am", "are", "is", "be"], ans: 2 },
+            { id: 88, q: "They ___ playing in the park.", opts: ["is", "am", "be", "are"], ans: 3 },
+            { id: 89, q: "We ___ happy today.", opts: ["are", "is", "am", "be"], ans: 0 },
+            { id: 90, q: "She ___ a song every morning.", opts: ["sing", "sings", "singing", "sung"], ans: 1 },
+            { id: 91, q: "The cat ___ on the mat.", opts: ["sit", "sitting", "sits", "sat down now"], ans: 2 },
+            { id: 92, q: "Dogs ___ loudly at night.", opts: ["barks", "barking", "barked yesterday", "bark"], ans: 3 },
+            { id: 93, q: "Fish ___ in water.", opts: ["swim", "swims only one", "fly", "walk"], ans: 0 },
+            { id: 94, q: "We use our legs to ___.", opts: ["see", "walk", "smell", "hear"], ans: 1 },
+            { id: 95, q: "Which word is an action word in: 'The boy kicks the ball.'?", opts: ["boy", "ball", "kicks", "the"], ans: 2 },
+            { id: 96, q: "It ___ raining outside.", opts: ["am", "are", "be", "is"], ans: 3 },
+            { id: 97, q: "Which word is a describing word (adjective)?", opts: ["big", "run", "table", "jump"], ans: 0 },
+            { id: 98, q: "In 'a red apple', which word describes the apple?", opts: ["a", "red", "apple", "is"], ans: 1 },
+            { id: 99, q: "Which word tells us about size?", opts: ["run", "sing", "tall", "eat"], ans: 2 },
+            { id: 100, q: "An elephant is a very ___ animal.", opts: ["blue", "loud", "fast", "big"], ans: 3 },
+            { id: 101, q: "The opposite of 'big' is", opts: ["small", "tall", "long", "wide"], ans: 0 },
+            { id: 102, q: "The opposite of 'hot' is", opts: ["warm", "cold", "sunny", "dry"], ans: 1 },
+            { id: 103, q: "The opposite of 'happy' is", opts: ["glad", "kind", "sad", "good"], ans: 2 },
+            { id: 104, q: "The opposite of 'day' is", opts: ["noon", "sun", "sky", "night"], ans: 3 },
+            { id: 105, q: "The opposite of 'fast' is", opts: ["slow", "quick", "run", "jump"], ans: 0 },
+            { id: 106, q: "The opposite of 'open' is", opts: ["start", "close", "push", "pull"], ans: 1 },
+            { id: 107, q: "The opposite of 'up' is", opts: ["top", "high", "down", "over"], ans: 2 },
+            { id: 108, q: "The opposite of 'wet' is", opts: ["cold", "soft", "full", "dry"], ans: 3 },
+            { id: 109, q: "The opposite of 'old' is", opts: ["new", "big", "soft", "long"], ans: 0 },
+            { id: 110, q: "The opposite of 'empty' is", opts: ["half", "full", "light", "open"], ans: 1 },
+            { id: 111, q: "Which word means the same as 'big'?", opts: ["tiny", "short", "large", "thin"], ans: 2 },
+            { id: 112, q: "Which word means the same as 'happy'?", opts: ["angry", "tired", "sleepy", "glad"], ans: 3 }
+        ];
+
+        // Global State variables
+        let quizData = [];
+        let userAnswers = {};
+        let currentIndex = 0;
+        let studentName = "";
+
+        // Fisher-Yates Shuffle Algorithm to randomize questions
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Start Quiz Action
+        function startQuiz(e) {
+            e.preventDefault();
+            const input = document.getElementById('student-name');
+            if (!input.value.trim()) return;
+
+            studentName = input.value.trim();
+            document.getElementById('display-student-name').innerText = studentName;
+            document.getElementById('student-badge').classList.remove('hidden');
+
+            // Shuffle questions fresh for this session
+            quizData = shuffleArray(rawQuestions);
+            userAnswers = {};
+            currentIndex = 0;
+
+            document.getElementById('start-card').classList.add('hidden');
+            document.getElementById('quiz-card').classList.remove('hidden');
+
+            renderQuestion();
+            buildGridModal();
+        }
+
+        // Render Current Question
+        function renderQuestion() {
+            const currentQ = quizData[currentIndex];
+            const total = quizData.length;
+
+            // Update header info
+            document.getElementById('question-progress-text').innerText = `Question ${currentIndex + 1} of ${total}`;
+            document.getElementById('q-tag').innerText = `Question #${currentIndex + 1}`;
+            document.getElementById('question-text').innerText = currentQ.q;
+
+            // Progress bar width
+            const percent = ((currentIndex + 1) / total) * 100;
+            document.getElementById('progress-bar-inner').style.width = `${percent}%`;
+
+            // Answered counter text
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById('answered-count-text').innerText = `${answeredCount} / ${total} Answered`;
+
+            // Render option buttons
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            const prefixes = ['a', 'b', 'c', 'd'];
+            currentQ.opts.forEach((optText, idx) => {
+                const isSelected = userAnswers[currentIndex] === idx;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => selectOption(idx);
+
+                btn.className = `w-full text-left p-4 rounded-xl border-2 transition flex items-center gap-3 text-sm sm:text-base font-semibold ${isSelected
+                        ? 'border-sky-500 bg-sky-50/80 text-sky-700 shadow-sm'
+                        : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                    }`;
+
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold uppercase ${isSelected ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
+                    }">${prefixes[idx]}</span>
+                    <span class="flex-1">${optText}</span>
+                    ${isSelected ? '<i class="fa-solid fa-circle-check text-sky-600 text-lg"></i>' : ''}
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            // Update navigation controls
+            document.getElementById('btn-prev').disabled = (currentIndex === 0);
+
+            if (currentIndex === total - 1) {
+                document.getElementById('btn-next').classList.add('hidden');
+                document.getElementById('btn-submit').classList.remove('hidden');
+            } else {
+                document.getElementById('btn-next').classList.remove('hidden');
+                document.getElementById('btn-submit').classList.add('hidden');
+            }
+
+            // Update modal grid state
+            updateGridModalState();
+        }
+
+        // Option Selection Handler
+        function selectOption(optionIdx) {
+            userAnswers[currentIndex] = optionIdx;
+            renderQuestion();
+        }
+
+        // Navigation Handlers
+        function nextQuestion() {
+            if (currentIndex < quizData.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        }
+
+        // Build Question Grid Navigation Modal
+        function buildGridModal() {
+            const container = document.getElementById('grid-buttons');
+            container.innerHTML = '';
+
+            quizData.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${idx}`;
+                btn.onclick = () => {
+                    currentIndex = idx;
+                    renderQuestion();
+                    toggleGridModal();
+                };
+                btn.className = 'w-9 h-9 rounded-lg font-bold text-xs flex items-center justify-center border transition';
+                btn.innerText = idx + 1;
+                container.appendChild(btn);
+            });
+            updateGridModalState();
+        }
+
+        function updateGridModalState() {
+            quizData.forEach((_, idx) => {
+                const btn = document.getElementById(`grid-btn-${idx}`);
+                if (!btn) return;
+
+                const isCurrent = idx === currentIndex;
+                const isAnswered = userAnswers.hasOwnProperty(idx);
+
+                if (isCurrent) {
+                    btn.className = 'w-9 h-9 rounded-lg font-bold text-xs flex items-center justify-center border-2 border-amber-500 bg-amber-400 text-slate-900 shadow-sm';
+                } else if (isAnswered) {
+                    btn.className = 'w-9 h-9 rounded-lg font-bold text-xs flex items-center justify-center border border-sky-500 bg-sky-600 text-white';
+                } else {
+                    btn.className = 'w-9 h-9 rounded-lg font-bold text-xs flex items-center justify-center border border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200';
+                }
+            });
+        }
+
+        function toggleGridModal() {
+            const modal = document.getElementById('grid-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Submit Confirmation & Scoring
+        function confirmSubmit() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = quizData.length;
+
+            if (answeredCount < total) {
+                const confirmChoice = window.confirm(`You have answered ${answeredCount} out of ${total} questions. Are you sure you want to submit?`);
+                if (!confirmChoice) return;
+            }
+
+            calculateAndShowResults();
+        }
+
+        // Calculate Score & Show Review Dashboard
+        function calculateAndShowResults() {
+            let correctCount = 0;
+            const wrongList = [];
+            const prefixes = ['a', 'b', 'c', 'd'];
+
+            quizData.forEach((qItem, idx) => {
+                const userChoiceIdx = userAnswers[idx];
+                const isCorrect = (userChoiceIdx === qItem.ans);
+
+                if (isCorrect) {
+                    correctCount++;
+                } else {
+                    wrongList.push({
+                        qNumber: idx + 1,
+                        question: qItem.q,
+                        options: qItem.opts,
+                        userChoice: userChoiceIdx !== undefined ? `${prefixes[userChoiceIdx]}. ${qItem.opts[userChoiceIdx]}` : 'Not Answered',
+                        correctChoice: `${prefixes[qItem.ans]}. ${qItem.opts[qItem.ans]}`
+                    });
+                }
+            });
+
+            const total = quizData.length;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            // Populate Result Metrics
+            document.getElementById('score-text').innerText = `${correctCount}/${total}`;
+            document.getElementById('percent-text').innerText = `${percentage}%`;
+            document.getElementById('correct-count-text').innerText = correctCount;
+            document.getElementById('wrong-count-text').innerText = total - correctCount;
+
+            // Custom Performance Message
+            const greetingEl = document.getElementById('res-greeting');
+            const badgeEl = document.getElementById('badge-icon');
+            if (percentage >= 80) {
+                greetingEl.innerText = `Super Star Performance, ${studentName}! 🎉`;
+                badgeEl.className = "w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-4xl mb-4 shadow-sm";
+                badgeEl.innerHTML = '<i class="fa-solid fa-trophy"></i>';
+            } else if (percentage >= 50) {
+                greetingEl.innerText = `Great Effort, ${studentName}! 👍`;
+                badgeEl.className = "w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-4xl mb-4 shadow-sm";
+                badgeEl.innerHTML = '<i class="fa-solid fa-award"></i>';
+            } else {
+                greetingEl.innerText = `Keep Learning, ${studentName}! 💪`;
+                badgeEl.className = "w-20 h-20 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-4xl mb-4 shadow-sm";
+                badgeEl.innerHTML = '<i class="fa-solid fa-book-open"></i>';
+            }
+
+            // Populate Incorrect Questions Review
+            document.getElementById('tab-wrong-count').innerText = wrongList.length;
+            const wrongContainer = document.getElementById('tab-wrong-content');
+            wrongContainer.innerHTML = '';
+
+            if (wrongList.length === 0) {
+                wrongContainer.innerHTML = `
+                    <div class="text-center py-8 bg-emerald-50 rounded-2xl border border-emerald-200">
+                        <i class="fa-solid fa-circle-check text-4xl text-emerald-500 mb-2"></i>
+                        <h4 class="text-xl font-bold text-emerald-800">Perfect Score! No Wrong Answers.</h4>
+                        <p class="text-emerald-600 text-sm">You answered all 112 questions correctly!</p>
+                    </div>
+                `;
+            } else {
+                wrongList.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = "p-4 sm:p-5 rounded-2xl border border-rose-200 bg-rose-50/50 space-y-2";
+                    card.innerHTML = `
+                        <div class="flex items-start gap-2">
+                            <span class="bg-rose-200 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-lg">Q${item.qNumber}</span>
+                            <h4 class="font-bold text-slate-800 text-base sm:text-lg">${item.question}</h4>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 text-sm">
+                            <div class="p-3 rounded-xl bg-white border border-rose-200 text-rose-700">
+                                <span class="block text-xs font-bold uppercase text-rose-400 mb-0.5">Your Choice (Incorrect)</span>
+                                <span class="font-bold"><i class="fa-solid fa-xmark mr-1"></i> ${item.userChoice}</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-white border border-emerald-200 text-emerald-700">
+                                <span class="block text-xs font-bold uppercase text-emerald-500 mb-0.5">Correct Answer</span>
+                                <span class="font-bold"><i class="fa-solid fa-check mr-1"></i> ${item.correctChoice}</span>
+                            </div>
+                        </div>
+                    `;
+                    wrongContainer.appendChild(card);
+                });
+            }
+
+            // Populate All Questions Review List
+            const allContainer = document.getElementById('tab-all-content');
+            allContainer.innerHTML = '';
+
+            quizData.forEach((qItem, idx) => {
+                const userChoiceIdx = userAnswers[idx];
+                const isCorrect = (userChoiceIdx === qItem.ans);
+
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-2xl border ${isCorrect ? 'border-emerald-200 bg-emerald-50/30' : 'border-rose-200 bg-rose-50/30'} space-y-2`;
+
+                const userChoiceText = userChoiceIdx !== undefined ? `${prefixes[userChoiceIdx]}. ${qItem.opts[userChoiceIdx]}` : 'Not Answered';
+                const correctChoiceText = `${prefixes[qItem.ans]}. ${qItem.opts[qItem.ans]}`;
+
+                card.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <span class="${isCorrect ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'} text-xs font-bold px-2.5 py-1 rounded-lg">Q${idx + 1}</span>
+                        <h4 class="font-bold text-slate-800 text-sm sm:text-base">${qItem.q}</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-4 text-xs sm:text-sm font-semibold pl-8">
+                        <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-600'}">Your Choice: <strong>${userChoiceText}</strong></span>
+                        <span class="text-emerald-700">Correct: <strong>${correctChoiceText}</strong></span>
+                    </div>
+                `;
+                allContainer.appendChild(card);
+            });
+
+            // Switch views
+            document.getElementById('quiz-card').classList.add('hidden');
+            document.getElementById('results-card').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Switch Review Tabs
+        function switchReviewTab(tab) {
+            const wrongBtn = document.getElementById('tab-wrong-btn');
+            const allBtn = document.getElementById('tab-all-btn');
+            const wrongContent = document.getElementById('tab-wrong-content');
+            const allContent = document.getElementById('tab-all-content');
+
+            if (tab === 'wrong') {
+                wrongBtn.className = "py-2.5 px-4 font-bold text-sm sm:text-base border-b-2 border-rose-500 text-rose-600 flex items-center gap-2";
+                allBtn.className = "py-2.5 px-4 font-bold text-sm sm:text-base border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2";
+                wrongContent.classList.remove('hidden');
+                allContent.classList.add('hidden');
+            } else {
+                allBtn.className = "py-2.5 px-4 font-bold text-sm sm:text-base border-b-2 border-sky-600 text-sky-600 flex items-center gap-2";
+                wrongBtn.className = "py-2.5 px-4 font-bold text-sm sm:text-base border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2";
+                allContent.classList.remove('hidden');
+                wrongContent.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>
